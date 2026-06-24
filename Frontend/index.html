@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vetra — Own Your Credentials</title>
+  <meta name="description" content="Vetra is a secure, client-side encrypted password manager. Keep your credentials fully under your own control using a single Master Key.">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- CSS -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body class="dark-theme">
+  <!-- Background Glow Effects -->
+  <div class="radial-glow glow-1"></div>
+  <div class="radial-glow glow-2"></div>
+  <div class="radial-glow glow-3"></div>
+
+  <!-- Global Toast Notifications Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ================= NAV BAR (LANDING / AUTH ONLY) ================= -->
+  <header id="main-header" class="main-header">
+    <nav class="navbar container">
+      <div class="nav-brand" onclick="app.navigateTo('landing')">
+        <svg class="brand-logo" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9C10 10.1046 10.8954 11 12 11Z" fill="url(#logo-grad)"/>
+          <path d="M12 11V15M12 15H10.5M12 15H13.5" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="logo-grad" x1="4" y1="2" x2="20" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#a78bfa" />
+              <stop offset="1" stop-color="#7c3aed" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="brand-name">Vetra</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#features" onclick="app.scrollToSection('features', event)">Features</a></li>
+        <li><a href="#how-it-works" onclick="app.scrollToSection('how-it-works', event)">Security</a></li>
+        <li><a href="#architecture" onclick="app.scrollToSection('architecture', event)">Architecture</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button id="nav-signin-btn" class="btn btn-text" onclick="app.navigateTo('signin')">Sign In</button>
+        <button id="nav-signup-btn" class="btn btn-primary" onclick="app.navigateTo('signup')">Create Vault</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= VIEW CONTAINER ================= -->
+  <main id="app-view-container">
+
+    <!-- PAGE 1: LANDING PAGE -->
+    <section id="view-landing" class="view-section active">
+      <div class="hero-section container">
+        <div class="hero-content">
+          <div class="tagline-badge">
+            <span class="pulse-dot"></span>
+            Zero-Knowledge Password Manager
+          </div>
+          <h1>One Master Key.<br><span class="gradient-text">Complete Control.</span></h1>
+          <p class="hero-subtitle">
+            Vetra encrypts all your credentials directly in your browser. We never see your Master Key, and we never store your passwords in plain text. Own your credentials.
+          </p>
+          <div class="hero-ctas">
+            <button class="btn btn-primary btn-lg glow-button" onclick="app.navigateTo('signup')">
+              Create Your Vault
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button class="btn btn-secondary btn-lg" onclick="app.scrollToSection('how-it-works')">
+              Learn More
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Crypto Playground Mockup -->
+        <div class="hero-mockup">
+          <div class="glass-card mockup-card">
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+              </div>
+              <div class="mockup-title">Client-Side Encryption Sandbox</div>
+            </div>
+            <div class="mockup-body">
+              <div class="form-group">
+                <label for="sandbox-input">Plaintext Password / Secret</label>
+                <input type="text" id="sandbox-input" class="glass-input" value="my-super-secret-password-123" placeholder="Enter secret..."readonly>
+              </div>
+              <div class="form-group">
+                <label for="sandbox-key">Mock Master Key</label>
+                <input type="password" id="sandbox-key" class="glass-input" placeholder="Enter key..." value="MasterKeyDemo" readonly>
+              </div>
+              <div class="playground-result">
+                <div class="result-header">
+                  <span>AES-GCM-256 Encrypted Blob (Ready to Sync)</span>
+                  <span class="badge badge-success">Encrypted in browser</span>
+                </div>
+                <pre id="sandbox-output" class="code-output">Generating encrypted payload...</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FEATURES SECTION -->
+      <section id="features" class="features-section container">
+        <div class="section-header">
+          <h2>Engineered for Absolute Privacy</h2>
+          <p>Security isn't a feature—it's our foundation. Discover the core values of Vetra.</p>
+        </div>
+        <div class="features-grid">
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Zero-Knowledge</h3>
+            <p>Your master key never leaves your device. All encryption and decryption happen locally using web cryptography standards.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>Military Grade Encryption</h3>
+            <p>We use PBKDF2 for key derivation alongside AES-GCM 256-bit encryption. Your credentials remain unreadable to everyone, including us.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><path d="M21 2H3v16h18V2zM8 21h8M12 18v3"/></svg>
+            </div>
+            <h3>Cross-Platform Vault</h3>
+            <p>Securely sync your encrypted credentials across all browsers and devices while retaining sole custody of the decryption keys.</p>
+          </div>
+          <div class="glass-card feature-card">
+            <div class="feature-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Automatic Lock</h3>
+            <p>Inactive tabs auto-lock instantly, wiping local keys from session memory. Your credentials remain safe even if your device is compromised.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECURITY ARCHITECTURE / HOW IT WORKS -->
+      <section id="how-it-works" class="architecture-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Cryptographic Workflows</h2>
+            <p>How we ensure complete zero-knowledge security on every device.</p>
+          </div>
+          <div class="architecture-flow">
+            <div class="flow-step glass-card">
+              <div class="step-num">01</div>
+              <h4>Key Stretching</h4>
+              <p>Your Master Key is combined with a local salt and stretched using PBKDF2 with 600,000 iterations of SHA-256 to block brute-force attacks.</p>
+            </div>
+            <div class="flow-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+            <div class="flow-step glass-card">
+              <div class="step-num">02</div>
+              <h4>Local Encryption</h4>
+              <p>Credentials are encrypted locally in browser memory via authenticated AES-GCM 256-bit cryptography before uploading anywhere.</p>
+            </div>
+            <div class="flow-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+            <div class="flow-step glass-card">
+              <div class="step-num">03</div>
+              <h4>Encrypted Backup</h4>
+              <p>Only the resulting high-entropy ciphertext is synchronized. Vetra servers only hold encrypted blobs—never plain text passwords.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA SECTION -->
+      <section class="cta-section container">
+        <div class="glass-card cta-card">
+          <h2>Own your passwords. Safeguard your life.</h2>
+          <p>Create a secure vault in seconds. Zero configuration, absolute protection.</p>
+          <button class="btn btn-primary btn-lg glow-button" onclick="app.navigateTo('signup')">Initialize Vault Now</button>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="main-footer container">
+        <div class="footer-brand">
+          <span class="brand-name">Vetra</span>
+          <p class="brand-tagline">Vetra — Own Your Credentials.</p>
+        </div>
+        <div class="footer-links">
+          <span>Security-focused. Privacy-first. Built on WebCrypto.</span>
+        </div>
+      </footer>
+    </section>
+
+    <!-- PAGE 2: SIGN UP -->
+    <section id="view-signup" class="view-section">
+      <div class="auth-wrapper container">
+        <div class="glass-card auth-card">
+          <div class="auth-header">
+            <h3>Create Vault</h3>
+            <p>Enter your details and choose a strong Master Key.</p>
+          </div>
+          <form onsubmit="app.handleSignUp(event)">
+            <div class="form-group">
+              <label for="signup-email">Email Address</label>
+              <input type="email" id="signup-email" class="glass-input" required placeholder="name@domain.com">
+            </div>
+            <div class="form-group">
+              <label for="signup-key">Master Key</label>
+              <div class="password-input-wrapper">
+                <input type="password" id="signup-key" class="glass-input" required placeholder="Choose a highly secure key" oninput="app.evaluateKeyStrength(this.value)">
+                <button type="button" class="password-toggle" onclick="app.togglePasswordVisibility('signup-key')">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="strength-meter">
+                <div class="strength-bar">
+                  <div id="strength-fill" class="strength-fill"></div>
+                </div>
+                <div id="strength-text" class="strength-text">Key strength: Empty</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="signup-key-confirm">Confirm Master Key</label>
+              <div class="password-input-wrapper">
+                <input type="password" id="signup-key-confirm" class="glass-input" required placeholder="Repeat Master Key">
+                <button type="button" class="password-toggle" onclick="app.togglePasswordVisibility('signup-key-confirm')">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Security Warning Card -->
+            <div class="warning-card">
+              <div class="warning-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="warning-text">
+                <strong>Critical Warning:</strong> Your Master Key cannot be recovered. Vetra has no recovery mechanism. Keep it safe.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Create Cryptographic Vault</button>
+            <div class="auth-footer">
+              Already have a vault? <a href="#" onclick="app.navigateTo('signin')">Unlock Vault</a>
+            </div>
+          </form>
+          <div class="back-link">
+            <button class="btn btn-text" onclick="app.navigateTo('landing')">← Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 3: SIGN IN -->
+    <section id="view-signin" class="view-section">
+      <div class="auth-wrapper container">
+        <div class="glass-card auth-card">
+          <div class="auth-header">
+            <h3>Unlock Vault</h3>
+            <p>Provide your email and Master Key to decrypt your vault.</p>
+          </div>
+          <form onsubmit="app.handleSignIn(event)">
+            <div class="form-group">
+              <label for="signin-email">Email Address</label>
+              <input type="email" id="signin-email" class="glass-input" required placeholder="name@domain.com">
+            </div>
+            <div class="form-group">
+              <label for="signin-key">Master Key</label>
+              <div class="password-input-wrapper">
+                <input type="password" id="signin-key" class="glass-input" required placeholder="Enter Master Key">
+                <button type="button" class="password-toggle" onclick="app.togglePasswordVisibility('signin-key')">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="forgot-account-wrapper">
+              <a href="#" onclick="app.handleForgotAccount()" class="forgot-link">Forgot account info?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full" id="unlock-btn">
+              <span class="btn-text-content">Unlock & Decrypt</span>
+            </button>
+            <div class="auth-footer">
+              Don't have a vault yet? <a href="#" onclick="app.navigateTo('signup')">Register Vault</a>
+            </div>
+          </form>
+          <div class="back-link">
+            <button class="btn btn-text" onclick="app.navigateTo('landing')">← Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 4 & 5: DASHBOARD & VAULT MANAGEMENT -->
+    <section id="view-dashboard" class="view-section dashboard-layout">
+      <!-- SIDEBAR -->
+      <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+          <svg class="brand-logo" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 11C13.1046 11 14 10.1046 14 9C14 7.89543 13.1046 7 12 7C10.8954 7 10 7.89543 10 9C10 10.1046 10.8954 11 12 11Z" fill="#7c3aed"/>
+          </svg>
+          <span class="brand-name">Vetra</span>
+        </div>
+        <nav class="sidebar-menu">
+          <button class="menu-item active" id="menu-all" onclick="app.switchTab('all')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3A2.5 2.5 0 0 1 6.5 0.5H20v16.5H6.5a2.5 2.5 0 0 0-2.5 2.5z"/></svg>
+            All Items
+            <span class="badge" id="badge-count-all">0</span>
+          </button>
+          <button class="menu-item" id="menu-logins" onclick="app.switchTab('logins')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Logins
+            <span class="badge" id="badge-count-logins">0</span>
+          </button>
+          <button class="menu-item" id="menu-cards" onclick="app.switchTab('cards')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            Cards
+            <span class="badge" id="badge-count-cards">0</span>
+          </button>
+          <button class="menu-item" id="menu-notes" onclick="app.switchTab('notes')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Secure Notes
+            <span class="badge" id="badge-count-notes">0</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">
+          <div class="user-profile">
+            <div class="avatar" id="user-avatar">U</div>
+            <div class="user-info">
+              <div class="user-email" id="sidebar-email">user@domain.com</div>
+              <div class="vault-status">Vault: Decrypted</div>
+            </div>
+          </div>
+          <button class="btn btn-text btn-logout" onclick="app.handleLockVault()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Lock Vault
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT PANEL -->
+      <main class="dashboard-main">
+        <!-- TOP NAVIGATION -->
+        <header class="dashboard-header">
+          <div class="search-bar-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="vault-search" class="glass-input search-input" placeholder="Search credentials... (Press '/' to focus)" oninput="app.handleSearch(this.value)">
+          </div>
+          <div class="dashboard-actions">
+            <button class="btn btn-primary" onclick="app.openAddModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Add Credential
+            </button>
+          </div>
+        </header>
+
+        <!-- DASHBOARD CONTAINER -->
+        <div class="dashboard-body scrollable">
+          <!-- QUICK STATS -->
+          <section class="stats-grid">
+            <div class="glass-card stat-card">
+              <span class="stat-label">Total Credentials</span>
+              <span class="stat-value" id="stat-total">0</span>
+            </div>
+            <div class="glass-card stat-card secure">
+              <span class="stat-label">Strong Passwords</span>
+              <span class="stat-value" id="stat-strong">0</span>
+            </div>
+            <div class="glass-card stat-card danger">
+              <span class="stat-label">Weak / At Risk</span>
+              <span class="stat-value" id="stat-weak">0</span>
+            </div>
+            <div class="glass-card stat-card rating">
+              <span class="stat-label">Vault Health</span>
+              <div class="gauge-wrapper">
+                <div class="circular-progress">
+                  <svg class="progress-ring" width="56" height="56">
+                    <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="4" fill="transparent" r="22" cx="28" cy="28" />
+                    <circle class="progress-ring-fill" id="health-ring-fill" stroke="var(--primary-light)" stroke-width="4" fill="transparent" r="22" cx="28" cy="28" stroke-dasharray="138.23" stroke-dashoffset="0" />
+                  </svg>
+                  <span class="progress-text" id="stat-health">100%</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- SECURITY INSIGHTS BANNER -->
+          <div class="glass-card alert-banner" id="security-insight-banner">
+            <div class="banner-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="banner-content">
+              <h4>Weak Master Key or Exposed Passwords Identified</h4>
+              <p>We found weak passwords in your vault. Consider replacing them with randomly generated passwords using Vetra's generator.</p>
+            </div>
+          </div>
+
+          <!-- VAULT CREDENTIALS LIST -->
+          <section class="vault-list-container">
+            <div class="list-header">
+              <h3 id="current-category-title">All Credentials</h3>
+            </div>
+            <div class="vault-table-wrapper">
+              <table class="vault-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Username</th>
+                    <th>Last Updated</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="vault-list-body">
+                  <!-- Generated dynamically in app.js -->
+                </tbody>
+              </table>
+              <div id="no-credentials-msg" class="no-credentials-msg hidden">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4b5563" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <p>No credentials found. Click "Add Credential" to add your first login.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <!-- DETAILS DRAWER PANEL -->
+      <aside id="details-drawer" class="dashboard-details-drawer">
+        <div id="details-empty" class="details-empty-state">
+          <div class="details-empty-icon">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h4>No Item Selected</h4>
+          <p>Select any credential from the list to view its decrypted details here.</p>
+        </div>
+        <div id="details-content" class="details-active-state hidden">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </aside>
+    </section>
+
+  </main>
+
+  <!-- ================= PAGE 6: ADD CREDENTIAL MODAL ================= -->
+  <div id="add-modal" class="modal-overlay">
+    <div class="glass-card modal-card animate-scale-up">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Credential</h3>
+        <button class="btn-close" onclick="app.closeAddModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <form id="credential-form" onsubmit="app.handleSaveCredential(event)">
+        <!-- HIDDEN ID FIELD -->
+        <input type="hidden" id="cred-id">
+
+        <div class="form-row">
+          <div class="form-group flex-1">
+            <label for="cred-type">Type</label>
+            <select id="cred-type" class="glass-input" onchange="app.handleTypeChange(this.value)">
+              <option value="login">Login</option>
+              <option value="card">Card</option>
+              <option value="note">Secure Note</option>
+            </select>
+          </div>
+          <div class="form-group flex-2">
+            <label for="cred-name" id="label-cred-name">Website / Name</label>
+            <input type="text" id="cred-name" class="glass-input" required placeholder="Github, Google, Chase Bank">
+          </div>
+        </div>
+
+        <div class="form-group" id="group-url">
+          <label for="cred-url">Website URL</label>
+          <input type="url" id="cred-url" class="glass-input" placeholder="https://github.com">
+        </div>
+
+        <div class="form-group" id="group-username">
+          <label for="cred-username" id="label-cred-username">Username / Email</label>
+          <input type="text" id="cred-username" class="glass-input" placeholder="user@domain.com">
+        </div>
+
+        <div class="form-group" id="group-password">
+          <label for="cred-password" id="label-cred-password">Password</label>
+          <div class="password-input-wrapper">
+            <input type="password" id="cred-password" class="glass-input" placeholder="Enter password or use generator">
+            <button type="button" class="password-toggle" onclick="app.togglePasswordVisibility('cred-password')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+        <!-- GENERATOR SUB-ACCORDION -->
+        <div class="generator-accordion" id="generator-section">
+          <button type="button" class="btn btn-text accordion-header" onclick="app.toggleGeneratorAccordion()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Password Generator
+          </button>
+          <div class="accordion-content id-gen-content collapsed" id="gen-content">
+            <div class="gen-controls">
+              <div class="control-row">
+                <label for="gen-length">Length: <span id="gen-length-val">16</span></label>
+                <input type="range" id="gen-length" min="8" max="32" value="16" oninput="app.updateGenLength(this.value)">
+              </div>
+              <div class="checkbox-grid">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="gen-upper" checked onchange="app.generatePasswordAndPreview()">
+                  <span class="checkmark"></span>
+                  Uppercase (A-Z)
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" id="gen-lower" checked onchange="app.generatePasswordAndPreview()">
+                  <span class="checkmark"></span>
+                  Lowercase (a-z)
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" id="gen-numbers" checked onchange="app.generatePasswordAndPreview()">
+                  <span class="checkmark"></span>
+                  Numbers (0-9)
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" id="gen-symbols" checked onchange="app.generatePasswordAndPreview()">
+                  <span class="checkmark"></span>
+                  Symbols (!@#$%)
+                </label>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm btn-full" onclick="app.generateAndFillPassword()">Generate & Fill</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cred-notes">Notes</label>
+          <textarea id="cred-notes" class="glass-input" rows="3" placeholder="Add custom notes, PINs, recovery seeds, etc."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeAddModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Credential</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Decrypt Database Loading overlay screen -->
+  <div id="decrypt-overlay" class="decrypt-overlay hidden">
+    <div class="decrypt-content">
+      <div class="decrypt-spinner-wrapper">
+        <div class="decrypt-spinner"></div>
+        <svg class="decrypt-lock-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path id="anim-lock-shackle" d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h3 id="decrypt-status-title">Deriving cryptographic keys...</h3>
+      <div class="decrypt-progress-bar">
+        <div id="decrypt-progress-fill" class="decrypt-progress-fill"></div>
+      </div>
+      <div id="decrypt-log" class="decrypt-log"></div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="app.js"></script>
+</body>
+</html>
