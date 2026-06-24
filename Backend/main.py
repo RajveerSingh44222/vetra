@@ -6,7 +6,13 @@ from routes.vault import router as vault_router
 from fastapi.middleware.cors import CORSMiddleware
 from routes.dashboard import router as dashboard_router
 from routes.tools import router as tools_router
+from database.connection import engine, Base
+from models.user import User
+from database.connection import engine, Base
 
+# Import models so SQLAlchemy registers them
+from models.user import User
+from models.vault_entry import VaultEntry
 
 app = FastAPI(
     title="Vetra API",
@@ -28,13 +34,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 @app.on_event("startup")
 def startup_event():
     try:
+        # Create tables if they don't exist
+        Base.metadata.create_all(bind=engine)
+
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
+
         print("✅ Database Connected Successfully")
+        print("✅ Tables Created Successfully")
+
     except Exception as e:
         print("❌ Database Connection Failed")
         print(e)
