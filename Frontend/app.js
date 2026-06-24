@@ -2,7 +2,7 @@
    VETRA PASSWORD MANAGER - APPLICATION LOGIC
    ========================================== */
 
-const API_BASE_URL = "vetra-production-2545.up.railway.app";
+const API_BASE_URL = "https://vetra-production-2545.up.railway.app/api/v1";
 
 class VetraApp {
   constructor() {
