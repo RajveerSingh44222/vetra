@@ -183,6 +183,21 @@ For security policies and vulnerability reporting, see [SECURITY.md](SECURITY.md
 
 ---
 
+## Security Design Decisions
+
+Vetra currently derives the vault encryption key from the user's master password **on the server** at login and caches it in Redis for the session, rather than deriving it client-side in a full zero-knowledge model. This kept the project scoped to learning the core primitives — Argon2 hashing, AES-GCM authenticated encryption, key derivation — without also taking on browser-side WebCrypto at the same time.
+
+A few known limitations follow from that scope, listed here intentionally rather than left undocumented:
+
+* **Static KDF salt** — the PBKDF2 derivation currently uses one shared salt for all users instead of a unique random salt per user.
+* **No master password strength enforcement** — signup accepts any non-empty password, even though it's the root secret the whole vault depends on.
+* **No login rate limiting** — `/auth/login` doesn't throttle repeated attempts yet.
+* **Permissive CORS** — the API currently allows any origin, which simplified local development and deployment.
+
+A production version would close these by deriving keys client-side via the Web Crypto API, giving each user their own random salt, enforcing a minimum password strength at signup, adding rate limiting (e.g. `slowapi`), and restricting CORS to the deployed frontend domain. Vetra was built primarily to demonstrate backend fundamentals — authentication, authorization, encryption at rest, and clean API design — and the gaps above are what would need closing first if it were ever taken further.
+
+---
+
 ## Future Improvements
 
 * Two-Factor Authentication (2FA)
