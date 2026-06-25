@@ -2,10 +2,6 @@
 
 > A secure, full-stack password manager built with FastAPI, PostgreSQL, Redis, and AES encryption. Store, manage, and retrieve credentials securely through an intuitive web interface.
 
-
-
-\
-
 ---
 
 ## Why Vetra?
@@ -67,7 +63,7 @@
 ### Clone Repository
 
 ```bash
-git clone https://github.com/your-username/vetra.git
+git clone https://github.com/RajveerSingh44222/vetra
 cd vetra
 ```
 
@@ -118,6 +114,16 @@ http://localhost:8000/docs
 
 ---
 
+## Documentation
+
+| Document        | Description                                                        |
+| --------------- | ------------------------------------------------------------------ |
+| DEPLOYMENT.md   | Deployment instructions for Railway, Vercel, PostgreSQL, and Redis |
+| SECURITY.md     | Security policy, reporting guidelines, and security model          |
+| CONTRIBUTING.md | Guidelines for contributing to Vetra                               |
+
+---
+
 ## Project Structure
 
 ```text
@@ -138,7 +144,10 @@ vetra/
 │   ├── assets/
 │   └── index.html
 │
-└── README.md
+├── README.md
+├── DEPLOYMENT.md
+├── SECURITY.md
+└── CONTRIBUTING.md
 ```
 
 ---
@@ -154,9 +163,7 @@ Database → PostgreSQL
 Sessions → Redis
 ```
 
-For detailed deployment instructions, see:
-
-**DEPLOYMENT.md**
+For detailed deployment instructions, see DEPLOYMENT.md.
 
 ---
 
@@ -171,6 +178,8 @@ For detailed deployment instructions, see:
 | Database         | PostgreSQL     |
 
 Passwords are encrypted before storage and decrypted only when requested by an authenticated user.
+
+For security policies and vulnerability reporting, see SECURITY.md.
 
 ---
 
@@ -189,7 +198,7 @@ Passwords are encrypted before storage and decrypted only when requested by an a
 
 **Rajveer Singh Sisodia**
 
-Full-Stack Developer 
+Full-Stack Developer • Cybersecurity Enthusiast
 
 ---
 
