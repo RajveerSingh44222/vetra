@@ -116,11 +116,11 @@ http://localhost:8000/docs
 
 ## Documentation
 
-| Document        | Description                                                        |
-| --------------- | ------------------------------------------------------------------ |
-| DEPLOYMENT.md   | Deployment instructions for Railway, Vercel, PostgreSQL, and Redis |
-| SECURITY.md     | Security policy, reporting guidelines, and security model          |
-| CONTRIBUTING.md | Guidelines for contributing to Vetra                               |
+| Document | Description |
+|----------|-------------|
+| [DEPLOYMENT.md](DEPLOYMENT.md) | Deployment instructions for Railway, Vercel, PostgreSQL, and Redis |
+| [SECURITY.md](SECURITY.md) | Security policy, reporting guidelines, and security model |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Guidelines for contributing to Vetra |
 
 ---
 
@@ -163,7 +163,7 @@ Database → PostgreSQL
 Sessions → Redis
 ```
 
-For detailed deployment instructions, see DEPLOYMENT.md.
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ---
 
@@ -179,7 +179,7 @@ For detailed deployment instructions, see DEPLOYMENT.md.
 
 Passwords are encrypted before storage and decrypted only when requested by an authenticated user.
 
-For security policies and vulnerability reporting, see SECURITY.md.
+For security policies and vulnerability reporting, see [SECURITY.md](SECURITY.md).
 
 ---
 
