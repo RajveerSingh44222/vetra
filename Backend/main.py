@@ -30,7 +30,7 @@ app.include_router(tools_router, prefix="/api/v1")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://vetra-tawny.vercel.app/"
+        "https://vetra-tawny.vercel.app/#"
     ],
     allow_credentials=True,
     allow_methods=["*"],
