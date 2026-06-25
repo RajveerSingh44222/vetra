@@ -29,10 +29,13 @@ app.include_router(tools_router, prefix="/api/v1")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://vetra-tawny.vercel.app/"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    max_age=86400
 )
 @app.on_event("startup")
 def startup_event():

@@ -85,9 +85,7 @@ def login(
     vault_key = derive_key(
         request.master_password
     )
-    print(type(vault_key))
-    print("DERIVE KEY FUNC:", derive_key)
-    print(vault_key)
+    
     store_vault_key(
         user_id=str(user.id),
         vault_key=vault_key,
