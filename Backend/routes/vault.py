@@ -21,7 +21,7 @@ router = APIRouter(
 
 
 # CREATE VAULT ENTRY
-@router.post("/")
+@router.post("")
 def create_vault_entry(
     request: CreateVaultEntry,
     db: Session = Depends(get_db),
@@ -60,7 +60,7 @@ def create_vault_entry(
 
 
 # GET ALL VAULT ENTRIES
-@router.get("/")
+@router.get("")
 def get_all_vault_entries(
     db: Session = Depends(get_db),
     user=Depends(get_current_user)
