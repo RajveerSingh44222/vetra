@@ -238,7 +238,7 @@ def decrypt_vault_password(
         )
 
     vault_key = get_vault_key(user["user_id"])
-    print("VAULT KEY:", vault_key)
+    
     if not vault_key:
         raise HTTPException(
             status_code=401,

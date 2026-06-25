@@ -1,16 +1,11 @@
 from fastapi import FastAPI
 from sqlalchemy import text
-from database.connection import engine
 from routes.auth import router as auth_router
 from routes.vault import router as vault_router
 from fastapi.middleware.cors import CORSMiddleware
 from routes.dashboard import router as dashboard_router
 from routes.tools import router as tools_router
 from database.connection import engine, Base
-from models.user import User
-from database.connection import engine, Base
-
-# Import models so SQLAlchemy registers them
 from models.user import User
 from models.vault_entry import VaultEntry
 
