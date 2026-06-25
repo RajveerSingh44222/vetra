@@ -1,30 +1,28 @@
 import base64
-
 from redis import Redis
 from fastapi import HTTPException
+import os
 
 
-redis_client = Redis(
-    host="localhost",
-    port=6379,
+redis_client = Redis.from_url(
+    os.getenv("REDIS_URL"),
     decode_responses=True
 )
 
+def store_vault_key(
+    user_id: str,
+    vault_key: bytes,
+    expiry_seconds: int
+):
+    encoded_key = base64.b64encode(
+        vault_key
+    ).decode()
 
-# def store_vault_key(
-#     user_id: str,
-#     vault_key: bytes,
-#     expiry_seconds: int
-# ):
-#     encoded_key = base64.b64encode(
-#         vault_key
-#     ).decode()
-
-#     redis_client.setex(
-#         f"vault_key:{user_id}",
-#         expiry_seconds,
-#         encoded_key
-#     )
+    redis_client.setex(
+        f"vault_key:{user_id}",
+        expiry_seconds,
+        encoded_key
+    )
 
 
 def get_vault_key(user_id: str) -> bytes:
