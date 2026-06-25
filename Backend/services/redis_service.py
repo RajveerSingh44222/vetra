@@ -11,20 +11,20 @@ redis_client = Redis(
 )
 
 
-def store_vault_key(
-    user_id: str,
-    vault_key: bytes,
-    expiry_seconds: int
-):
-    encoded_key = base64.b64encode(
-        vault_key
-    ).decode()
+# def store_vault_key(
+#     user_id: str,
+#     vault_key: bytes,
+#     expiry_seconds: int
+# ):
+#     encoded_key = base64.b64encode(
+#         vault_key
+#     ).decode()
 
-    redis_client.setex(
-        f"vault_key:{user_id}",
-        expiry_seconds,
-        encoded_key
-    )
+#     redis_client.setex(
+#         f"vault_key:{user_id}",
+#         expiry_seconds,
+#         encoded_key
+#     )
 
 
 def get_vault_key(user_id: str) -> bytes:
