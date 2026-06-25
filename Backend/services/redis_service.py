@@ -3,11 +3,15 @@ from redis import Redis
 from fastapi import HTTPException
 import os
 
+REDIS_URL = os.getenv("REDIS_URL")
 
-redis_client = Redis.from_url(
-    os.getenv("REDIS_URL"),
-    decode_responses=True
-)
+if REDIS_URL:
+    redis_client = Redis.from_url(
+        REDIS_URL,
+        decode_responses=True
+    )
+else:
+    redis_client = None
 
 def store_vault_key(
     user_id: str,
