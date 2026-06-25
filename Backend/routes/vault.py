@@ -78,7 +78,7 @@ def get_all_vault_entries(
 
 
 # SEARCH VAULT ENTRIES
-@router.get("/search/")
+@router.get("/search")
 def search_vault_entries(
     q: str,
     db: Session = Depends(get_db),
