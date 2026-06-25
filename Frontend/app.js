@@ -2,7 +2,7 @@
    VETRA PASSWORD MANAGER - APPLICATION LOGIC
    ========================================== */
 
-const API_BASE_URL = "postgresql://postgres.xhrmjvlrmgeflvjivwtn:rajveer%40446@aws-1-ap-south-1.pooler.supabase.com:5432/postgres";
+const API_BASE_URL = "https://vetra-production-2545.up.railway.app";
 
 class VetraApp {
   constructor() {
