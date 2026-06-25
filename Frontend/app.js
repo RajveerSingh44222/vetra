@@ -388,21 +388,21 @@ class VetraApp {
 
   async getVaultEntries() {
     return await this.apiRequest(
-      "/vault",
+      "/api/v1/vault",
       "GET"
     );
   }
 
   async getVaultEntry(id) {
     return await this.apiRequest(
-      `/vault/${id}`,
+      `/api/v1/vault/${id}`,
       "GET"
     );
   }
 
   async createVaultEntry(payload) {
     return await this.apiRequest(
-      "/vault",
+      "/api/v1/vault",
       "POST",
       payload
     );
@@ -410,7 +410,7 @@ class VetraApp {
 
   async updateVaultEntry(id, payload) {
     return await this.apiRequest(
-      `/vault/${id}`,
+      `/api/v1/vault/${id}`,
       "PUT",
       payload
     );
@@ -418,21 +418,21 @@ class VetraApp {
 
   async deleteVaultEntry(id) {
     return await this.apiRequest(
-      `/vault/${id}`,
+      `/api/v1/vault/${id}`,
       "DELETE"
     );
   }
 
   async searchVault(query) {
     return await this.apiRequest(
-      `/vault/search?q=${encodeURIComponent(query)}`,
+      `/api/v1/vault/search?q=${encodeURIComponent(query)}`,
       "GET"
     );
   }
 
   async getStats() {
     return await this.apiRequest(
-      "/dashboard/stats",
+      "/api/v1/dashboard/stats",
       "GET"
     );
   }
@@ -447,7 +447,7 @@ class VetraApp {
     });
 
     const response = await this.apiRequest(
-      `/tools/generate-password?${params.toString()}`,
+      `/api/v1/tools/generate-password?${params.toString()}`,
       "GET"
     );
     return response.password || response.generated_password || response;
@@ -456,7 +456,7 @@ class VetraApp {
   async decryptPassword(id) {
   try {
     const data = await this.apiRequest(
-      `/vault/${id}/decrypt`,
+      `/api/v1/vault/${id}/decrypt`,
       "GET"
     );
 
@@ -590,7 +590,7 @@ class VetraApp {
       const token = localStorage.getItem('access_token');
 
       await fetch(
-  `${API_BASE_URL}/auth/logout`,
+  `${API_BASE_URL}/api/v1/auth/logout`,
   {
     method: 'POST',
     headers: {
@@ -1114,7 +1114,7 @@ class VetraApp {
 
   async getCurrentUser() {
     return await this.apiRequest(
-      "/auth/me",
+      "/api/v1/auth/me",
       "GET"
     );
   }
